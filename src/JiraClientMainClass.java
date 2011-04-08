@@ -18,7 +18,7 @@ public class JiraClientMainClass {
 		
 		final JerseyJiraRestClientFactory factory = new JerseyJiraRestClientFactory();
 		try{
-			final URI jiraServerUri = new URI("http://sandbox.onjira.com:8089/jira");
+			final URI jiraServerUri = new URI("http://sandbox.onjira.com");
 			final JiraRestClient restClient = factory.createWithBasicHttpAuthentication(jiraServerUri, "sphinks", "654321");
 			final NullProgressMonitor pm = new NullProgressMonitor();
 			final Issue issue = restClient.getIssueClient().getIssue("TST-1", pm);
