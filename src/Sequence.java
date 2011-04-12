@@ -90,6 +90,14 @@ public class Sequence {
         return prefix(items.length - length);
     }
     
+    /*public Sequence remove(int start, int length) {
+    	return 
+    }
+    
+    public Sequence concat(Sequence head, Sequence tail) {
+    	
+    }*/
+    
     public String toString() {
         if (items.length > 0) {
             StringBuffer b = new StringBuffer();
