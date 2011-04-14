@@ -18,7 +18,7 @@ public class SimpleGrammar extends Grammar {
 	
 	
 	public SimpleGrammar() {
-		grammarRules = new LinkedList();
+		grammarRules = new LinkedList<Rule>();
 	}
 
 	@Override
@@ -27,23 +27,21 @@ public class SimpleGrammar extends Grammar {
 	}
 
 	@Override
-	public LinkedList<Command> parser(Sequence tokenArray) {
+	public Rule parser(Object[] commandArray) {
 		Iterator ruleIterator;
-		Sequence longest;
-		Rule r;
-		for (int i = 0; i < tokenArray.length(); i++) {
-			ruleIterator = grammarRules.iterator();
-			while (ruleIterator.hasNext()) {
-				r = (Rule)ruleIterator.next();
-				if (r.right().length() < tokenArray.length() - i) {
-					if (canReduce(r, tokenArray.subSequence(i, r.right().length()), r.right().length())) {
-						//System.
-					}
+		Rule r = Rule.getUndefineRuleInstance();
+		Rule tmpRule;
+		ruleIterator = grammarRules.iterator();
+		while (ruleIterator.hasNext()) {
+			tmpRule = (Rule)ruleIterator.next();
+			if (tmpRule.right().length == commandArray.length) {
+				if (canReduce(tmpRule, commandArray, tmpRule.right().length)) {
+					r = tmpRule;
+					break;
 				}
 			}
-			
 		}
-		return null;
+		return r;
 	}
 	
 	
@@ -58,9 +56,9 @@ public class SimpleGrammar extends Grammar {
 		}
 	}*/
 	
-	private boolean canReduce(Rule r, Sequence stack, int current) {
+	private boolean canReduce(Rule r, Object[] stack, int current) {
 		if (current > 0) {
-			if (r.right().at(current).equals(stack.at(current))) {
+			if (r.right()[current-1].equals(stack[current-1])) {
 				return canReduce(r, stack, current-1);
 			}else{
 				return false;

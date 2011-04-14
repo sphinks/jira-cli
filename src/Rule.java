@@ -6,25 +6,27 @@
 
 
 public class Rule {
+	
+	private static final Rule UNDEFINED_RULE = new Rule("undefined", null);
 
 	private Object left;
-	private Sequence right;
+	private Object[] right;
 
-	public Rule(Object left, Sequence right) {
+	public Rule(Object left, Object[] right) {
 		this.left = left;
 		this.right = right;
 	}
 
-	public Rule(Object left, Object[] right) {
+	/*public Rule(Object left, Object[] right) {
 		this.left = left;
 		this.right = new Sequence(right);
-	}
+	}*/
 
 	public Object left() {
 		return left;
 	}
 
-	public Sequence right() {
+	public Object[] right() {
 		return right;
 	}
 
@@ -42,5 +44,9 @@ public class Rule {
 
 	public String toString() {
 		return left + " : " + right;
+	}
+	
+	public static Rule getUndefineRuleInstance() {
+		return UNDEFINED_RULE;
 	}
 }

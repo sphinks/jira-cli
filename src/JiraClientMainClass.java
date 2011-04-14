@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,8 +13,6 @@ import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.NullProgressMonitor;
 import com.atlassian.jira.rest.client.domain.Issue;
 import com.atlassian.jira.rest.client.internal.jersey.JerseyJiraRestClientFactory;
-
-import scanner.*;
 
 import org.apache.commons.cli.*;
 
@@ -36,7 +35,7 @@ public class JiraClientMainClass {
 		try
 		{
 			commandLine = cmdLinePosixParser.parse(posixOptions, commandLineArguments);
-			if ( commandLine.hasOption("display") )
+			/*if ( commandLine.hasOption("display") )
 			{
 				System.out.println("You want a display!");
 			}
@@ -46,7 +45,21 @@ public class JiraClientMainClass {
 				for (int i = 0; i < tmp.length; i ++) {
 					System.out.println(tmp[i]);
 				}
+			}*/
+			SimpleGrammar sg = new SimpleGrammar();
+			Iterator iter = Command.baseCommand.iterator();
+			Option baseOpt;
+			Option tmpOpt;
+			while (iter.hasNext()) {
+				tmpOpt = (Option)iter.next();
+				if ( commandLine.hasOption(tmpOpt.getOpt())) {
+					baseOpt = tmpOpt;
+				}
 			}
+			//TODO check that there is at least one base command and that there is no more that one base command
+			Rule r = new Rule(Command.LOGIN, new Object[] {Command.ISSUE});
+			sg.addRule(r);
+			sg.parser(commandLine.getOptions());
 		}
 		catch (ParseException parseException)  // checked exception
 		{
@@ -64,15 +77,23 @@ public class JiraClientMainClass {
 	public static Options constructPosixOptions()
 	{
 		final Options posixOptions = new Options();
-		Option issueOption = new Option("issue", true, "Get issue");
-		issueOption.setDescription("Get issue");
+		Collection<Option> commands = Command.commands.values();
+		for (Iterator<Option> i = commands.iterator(); i.hasNext();) {
+			posixOptions.addOption((Option)i.next());
+		}
+		
+		
+		/*Option issueOption = new Option("issue", true, "Get issue");
+		//issueOption.setDescription("Get issue");
 		issueOption.setArgs(2);
 		issueOption.setArgName("name of issue");
+		issueOption.setOptionalArg(true);
+		//issueOption.setValueSeparator(' ');
 		issueOption.isRequired();
 		posixOptions.addOption("display", false, "Display the state.");
 		posixOptions.addOption(issueOption);
 		posixOptions.addOption("connect", true, "Connect");
-		posixOptions.addOption("a", false, "All");
+		posixOptions.addOption("a", false, "All");*/
 		return posixOptions;
 	}
 
@@ -265,6 +286,7 @@ public class JiraClientMainClass {
 		
 		
 		displayProvidedCommandLineArguments(commandLineArguments, System.out);
+		constructPosixOptions();
 		for (Iterator<String[]> listIterator = commands.iterator(); listIterator.hasNext();) {
 			
 			usePosixParser(listIterator.next());
