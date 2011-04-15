@@ -28,25 +28,12 @@ public class SimpleGrammar extends Grammar {
 	}
 
 	@Override
-	public Rule parser(CommandLine commandLine) {
+	public ParserResult parser(CommandLine commandLine) {
 		
 		
-		/*Iterator iter = Command.baseCommand.iterator();
-		Option baseOpt = null;
-		Option tmpOpt;
-		while (iter.hasNext()) {
-			tmpOpt = (Option)iter.next();
-			if ( commandLine.hasOption(tmpOpt.getOpt())) {
-				baseOpt = tmpOpt;
-				break;
-			}
-		}*/
 		Option baseOpt = getBaseOption(commandLine);
 		
-		
-		
-		
-		
+
 		Iterator ruleIterator;
 		Rule r = Rule.getUndefineRuleInstance();
 		Rule tmpRule;
@@ -63,25 +50,9 @@ public class SimpleGrammar extends Grammar {
 		return r;
 	}
 	
-	private Option getBaseOption(CommandLine commandLine) {
-		Iterator iter = Command.baseCommand.iterator();
-		Option baseOpt = null;
-		Option tmpOpt;
-		while (iter.hasNext()) {
-			tmpOpt = (Option)iter.next();
-			if ( commandLine.hasOption(tmpOpt.getOpt())) {
-				baseOpt = tmpOpt;
-				break;
-			}
-		}
-		//TODO check that there is at least one base command and that there is no more that one base command
-		return baseOpt;
-	}
-	
-	
 	private boolean canReduce(Rule r, CommandLine stack, int current) {
 		if (current > 0) {
-			if (stack.hasOption((Option)r.right()[current-1]) {
+			if (stack.hasOption(((Option)r.right()[current-1]).getOpt())){
 				return canReduce(r, stack, current-1);
 			}else{
 				return false;
@@ -89,6 +60,21 @@ public class SimpleGrammar extends Grammar {
 		}else{
 			return true;
 		}
+	}
+	
+	private Option getBaseOption(CommandLine commandLine) {
+		Iterator<String> iter = Command.baseCommand.iterator();
+		Option baseOpt = null;
+		String tmpOpt;
+		while (iter.hasNext()) {
+			tmpOpt = (String)iter.next();
+			if ( commandLine.hasOption(tmpOpt)) {
+				baseOpt = Command.commands.get(tmpOpt);
+				break;
+			}
+		}
+		//TODO check that there is at least one base command and that there is no more that one base command
+		return baseOpt;
 	}
 
 }

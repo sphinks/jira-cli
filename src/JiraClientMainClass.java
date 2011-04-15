@@ -35,22 +35,11 @@ public class JiraClientMainClass {
 		try
 		{
 			commandLine = cmdLinePosixParser.parse(posixOptions, commandLineArguments);
-			/*if ( commandLine.hasOption("display") )
-			{
-				System.out.println("You want a display!");
-			}
-			if ( commandLine.hasOption("issue") ) {
-				System.out.println("All");
-				String[] tmp = commandLine.getOptionValues("issue");
-				for (int i = 0; i < tmp.length; i ++) {
-					System.out.println(tmp[i]);
-				}
-			}*/
 			
 			SimpleGrammar sg = new SimpleGrammar();
-			Rule r = new Rule(Command.LOGIN, new Object[] {Command.ISSUE});
+			Rule r = new Rule(Command.ISSUE, new Object[] {Command.LOGIN});
 			sg.addRule(r);
-			sg.parser(commandLine);
+			ParserResult aplicableRule = sg.parser(commandLine);
 		}
 		catch (ParseException parseException)  // checked exception
 		{
@@ -72,34 +61,7 @@ public class JiraClientMainClass {
 		for (Iterator<Option> i = commands.iterator(); i.hasNext();) {
 			posixOptions.addOption((Option)i.next());
 		}
-		
-		
-		/*Option issueOption = new Option("issue", true, "Get issue");
-		//issueOption.setDescription("Get issue");
-		issueOption.setArgs(2);
-		issueOption.setArgName("name of issue");
-		issueOption.setOptionalArg(true);
-		//issueOption.setValueSeparator(' ');
-		issueOption.isRequired();
-		posixOptions.addOption("display", false, "Display the state.");
-		posixOptions.addOption(issueOption);
-		posixOptions.addOption("connect", true, "Connect");
-		posixOptions.addOption("a", false, "All");*/
 		return posixOptions;
-	}
-
-	/**
-	 * Construct and provide GNU-compatible Options.
-	 * 
-	 * @return Options expected from command-line of GNU form.
-	 */
-	public static Options constructGnuOptions()
-	{
-		final Options gnuOptions = new Options();
-		gnuOptions.addOption("p", "print", false, "Option for printing")
-		.addOption("g", "gui", false, "HMI option")
-		.addOption("n", true, "Number of copies");
-		return gnuOptions;
 	}
 
 	/**
@@ -136,9 +98,7 @@ public class JiraClientMainClass {
 	 */
 	public static void displayHeader(final OutputStream out)
 	{
-		final String header =
-			"[Apache Commons CLI Example from Dustin's Software Development "
-			+ "Cogitations and Speculations Blog]\n";
+		final String header = "[JIRA CLI]\n";
 		try
 		{
 			out.write(header.getBytes());
@@ -206,7 +166,7 @@ public class JiraClientMainClass {
 			final boolean displayUsage,
 			final OutputStream out)
 	{
-		final String commandLineSyntax = "java -cp ApacheCommonsCLI.jar";
+		final String commandLineSyntax = "java -cp jira-cli.jar";
 		final PrintWriter writer = new PrintWriter(out);
 		final HelpFormatter helpFormatter = new HelpFormatter();
 		helpFormatter.printHelp(
@@ -222,8 +182,13 @@ public class JiraClientMainClass {
 		writer.flush();
 	}
 	
-	public static List separateCommands(String[] commandLineArguments) {
-		List commands = new LinkedList();
+	/**
+	 * Method to separate different commands using pipe symbol "|"
+	 * @param commandLineArguments Command-line arguments
+	 * @return list of commands
+	 */
+	public static List<String[]> separateCommands(String[] commandLineArguments) {
+		List<String[]> commands = new LinkedList<String[]>();
 		String[] tempStringArray = null;
 		int lastSeparator = 0;
 		for ( int i = 0; i < commandLineArguments.length; i++ )
@@ -252,27 +217,18 @@ public class JiraClientMainClass {
 	public static void main(final String[] commandLineArguments)
 	{
 		LinkedList<String[]> commands = (LinkedList<String[]>)separateCommands(commandLineArguments);
-		final String applicationName = "MainCliExample";
+		final String applicationName = "jira-cli";
 		displayBlankLines(1, System.out);
 		displayHeader(System.out);
 		displayBlankLines(2, System.out);
 		if (commandLineArguments.length < 1)
 		{
-			System.out.println("-- USAGE --");
-			printUsage(applicationName + " (Posix)", constructPosixOptions(), System.out);
-			displayBlankLines(1, System.out);
-			printUsage(applicationName + " (Gnu)", constructGnuOptions(), System.out);
-
-			displayBlankLines(4, System.out);
+			displayBlankLines(2, System.out);
 
 			System.out.println("-- HELP --");
 			printHelp(
 					constructPosixOptions(), 80, "POSIX HELP", "End of POSIX Help",
 					3, 5, true, System.out);
-			displayBlankLines(1, System.out);
-			printHelp(
-					constructGnuOptions(), 80, "GNU HELP", "End of GNU Help",
-					5, 3, true, System.out);
 		}
 		
 		
@@ -282,7 +238,6 @@ public class JiraClientMainClass {
 			
 			usePosixParser(listIterator.next());
 		}
-		//useGnuParser(commandLineArguments);
 	}
 	
 	
