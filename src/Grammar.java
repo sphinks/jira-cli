@@ -5,11 +5,14 @@
  */
 
 import java.util.List;
+
+import org.apache.commons.cli.CommandLine;
+
 import scanner.*;
 
 public abstract class Grammar {
 	
 	abstract void addRule(Rule newRule);
-	abstract Rule parser(Object[] tokenArray);
+	abstract Rule parser(CommandLine commandLine);
 
 }

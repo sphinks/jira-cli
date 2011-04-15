@@ -46,20 +46,11 @@ public class JiraClientMainClass {
 					System.out.println(tmp[i]);
 				}
 			}*/
+			
 			SimpleGrammar sg = new SimpleGrammar();
-			Iterator iter = Command.baseCommand.iterator();
-			Option baseOpt;
-			Option tmpOpt;
-			while (iter.hasNext()) {
-				tmpOpt = (Option)iter.next();
-				if ( commandLine.hasOption(tmpOpt.getOpt())) {
-					baseOpt = tmpOpt;
-				}
-			}
-			//TODO check that there is at least one base command and that there is no more that one base command
 			Rule r = new Rule(Command.LOGIN, new Object[] {Command.ISSUE});
 			sg.addRule(r);
-			sg.parser(commandLine.getOptions());
+			sg.parser(commandLine);
 		}
 		catch (ParseException parseException)  // checked exception
 		{
