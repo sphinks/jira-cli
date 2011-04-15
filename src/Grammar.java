@@ -10,6 +10,6 @@ import scanner.*;
 public abstract class Grammar {
 	
 	abstract void addRule(Rule newRule);
-	abstract List<Command> parser(Token[] tokenArray);
+	abstract Rule parser(Object[] tokenArray);
 
 }
