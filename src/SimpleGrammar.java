@@ -36,18 +36,19 @@ public class SimpleGrammar extends Grammar {
 
 		Iterator ruleIterator;
 		Rule r = Rule.getUndefineRuleInstance();
+		ParserResult parserResult;
 		Rule tmpRule;
 		ruleIterator = grammarRules.iterator();
 		while (ruleIterator.hasNext()) {
 			tmpRule = (Rule)ruleIterator.next();
 			if ((tmpRule.left().equals(baseOpt)) && (tmpRule.right().length == commandLine.getOptions().length-1)) {
 				if (canReduce(tmpRule, commandLine, tmpRule.right().length)) {
-					r = tmpRule;
-					break;
+					//r = tmpRule;
+					return new SuccessfullParserResult(tmpRule);
 				}
 			}
 		}
-		return r;
+		return new FailedParserResult(r);
 	}
 	
 	private boolean canReduce(Rule r, CommandLine stack, int current) {

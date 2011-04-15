@@ -19,7 +19,7 @@ import org.apache.commons.cli.*;
 
 public class JiraClientMainClass {
 
-	private static Options options = new Options();
+	//private static Options options = new Options();
 
 	/**
 	 * Apply Apache Commons CLI PosixParser to command-line arguments.
@@ -40,6 +40,11 @@ public class JiraClientMainClass {
 			Rule r = new Rule(Command.ISSUE, new Object[] {Command.LOGIN});
 			sg.addRule(r);
 			ParserResult aplicableRule = sg.parser(commandLine);
+			if (aplicableRule instanceof SuccessfullParserResult) {
+				System.out.println(aplicableRule.toString());
+			}else{
+				System.err.println(aplicableRule.toString());
+			}
 		}
 		catch (ParseException parseException)  // checked exception
 		{

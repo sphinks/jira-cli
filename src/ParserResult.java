@@ -3,14 +3,8 @@
  * File: ParserResult.java
  * Date: 15.04.2011
  */
-/**
- * 
- */
 
-/**
- * @author Zerin_IS
- *
- */
+
 public abstract class ParserResult {
 	
 	private String comment;
@@ -24,8 +18,13 @@ public abstract class ParserResult {
 	public String getComment() {
 		return comment;
 	}
+	
 	public Rule getParsedRule() {
 		return parsedRule;
+	}
+	
+	public String toString() {
+		return comment + ' ' + parsedRule.toString();
 	}
 	
 	

@@ -16,6 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jersey"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/joda"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/guava"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-cli-1.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/common-cli"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
