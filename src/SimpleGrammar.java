@@ -3,6 +3,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+
 import scanner.Token;
 
 /**
@@ -15,8 +18,6 @@ public class SimpleGrammar extends Grammar {
 
 	private LinkedList<Rule> grammarRules;
 	
-	
-	
 	public SimpleGrammar() {
 		grammarRules = new LinkedList<Rule>();
 	}
@@ -27,15 +28,20 @@ public class SimpleGrammar extends Grammar {
 	}
 
 	@Override
-	public Rule parser(Object[] commandArray) {
+	public ParserResult parser(CommandLine commandLine) {
+		
+		
+		Option baseOpt = getBaseOption(commandLine);
+		
+
 		Iterator ruleIterator;
 		Rule r = Rule.getUndefineRuleInstance();
 		Rule tmpRule;
 		ruleIterator = grammarRules.iterator();
 		while (ruleIterator.hasNext()) {
 			tmpRule = (Rule)ruleIterator.next();
-			if (tmpRule.right().length == commandArray.length) {
-				if (canReduce(tmpRule, commandArray, tmpRule.right().length)) {
+			if ((tmpRule.left().equals(baseOpt)) && (tmpRule.right().length == commandLine.getOptions().length-1)) {
+				if (canReduce(tmpRule, commandLine, tmpRule.right().length)) {
 					r = tmpRule;
 					break;
 				}
@@ -44,21 +50,9 @@ public class SimpleGrammar extends Grammar {
 		return r;
 	}
 	
-	
-	private void reduce(Rule r, int start, int lenght) {
-		
-		
-	}
-	
-	/*private boolean tryToReduce(Rule r, Token[] tokenArray) {
-		for (int i = 0; i < tokenArray.length; i++) {
-			
-		}
-	}*/
-	
-	private boolean canReduce(Rule r, Object[] stack, int current) {
+	private boolean canReduce(Rule r, CommandLine stack, int current) {
 		if (current > 0) {
-			if (r.right()[current-1].equals(stack[current-1])) {
+			if (stack.hasOption(((Option)r.right()[current-1]).getOpt())){
 				return canReduce(r, stack, current-1);
 			}else{
 				return false;
@@ -66,6 +60,21 @@ public class SimpleGrammar extends Grammar {
 		}else{
 			return true;
 		}
+	}
+	
+	private Option getBaseOption(CommandLine commandLine) {
+		Iterator<String> iter = Command.baseCommand.iterator();
+		Option baseOpt = null;
+		String tmpOpt;
+		while (iter.hasNext()) {
+			tmpOpt = (String)iter.next();
+			if ( commandLine.hasOption(tmpOpt)) {
+				baseOpt = Command.commands.get(tmpOpt);
+				break;
+			}
+		}
+		//TODO check that there is at least one base command and that there is no more that one base command
+		return baseOpt;
 	}
 
 }

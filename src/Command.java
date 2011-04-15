@@ -21,7 +21,7 @@ public class Command {
 
 	static {
 		commands.put(ISSUE.getOpt(), ISSUE);
-		commands.put(ISSUE.getOpt(), LOGIN);
+		commands.put(LOGIN.getOpt(), LOGIN);
 		
 		baseCommand.add(ISSUE.getOpt());
 	}
@@ -36,6 +36,7 @@ public class Command {
 	private static Option initLoginOption() {
 		Option option = new Option("login", true, "Login");
 		option.setArgs(2);
+		option.setOptionalArg(true);
 		option.setArgName("action");
 		return option;
 	}
