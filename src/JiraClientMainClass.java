@@ -19,8 +19,6 @@ import org.apache.commons.cli.*;
 
 public class JiraClientMainClass {
 
-	//private static Options options = new Options();
-
 	/**
 	 * Apply Apache Commons CLI PosixParser to command-line arguments.
 	 * 
@@ -232,64 +230,24 @@ public class JiraClientMainClass {
 
 			System.out.println("-- HELP --");
 			printHelp(
-					constructPosixOptions(), 80, "POSIX HELP", "End of POSIX Help",
+					constructPosixOptions(), 80, "Start of help", "End of Help",
 					3, 5, true, System.out);
-		}
+		}else{
 		
 		
-		displayProvidedCommandLineArguments(commandLineArguments, System.out);
-		constructPosixOptions();
-		for (Iterator<String[]> listIterator = commands.iterator(); listIterator.hasNext();) {
-			
-			usePosixParser(listIterator.next());
+			displayProvidedCommandLineArguments(commandLineArguments, System.out);
+			constructPosixOptions();
+			for (Iterator<String[]> listIterator = commands.iterator(); listIterator.hasNext();) {
+				
+				usePosixParser(listIterator.next());
+			}
+			//Test only
+			try{
+				JiraClient jc = new JiraClient("http://sandbox.onjira.com", "sphinks", "654321");
+				System.out.println(jc.getIssue("TST-1"));
+			}catch(URISyntaxException ex){
+				System.err.println("Incorrect URI: " + ex.toString());
+			}
 		}
 	}
-	
-	
-	
-	/**
-	 * @param args
-	 */
-	/*public static void main(String[] args) {
-		
-		
-		/*URI jiraServerUri = null;
-		JiraRestClient restClient = null;
-		final NullProgressMonitor pm = new NullProgressMonitor();
-		
-		final JerseyJiraRestClientFactory factory = new JerseyJiraRestClientFactory();
-		try{
-			jiraServerUri = new URI("http://sandbox.onjira.com");
-			restClient = factory.createWithBasicHttpAuthentication(jiraServerUri, "sphinks", "654321");
-			
-
-			
-		}catch(URISyntaxException ex){
-			System.out.println("Can`t establish connection with " + jiraServerUri.toString());
-		}*/
-		
-		
-		
-		
-		/*Scanner scanner = new Scanner();
-		char[] in;
-		String tmpStr = "";
-		for (int i = 0; i < args.length; i++) {
-			tmpStr += args[i] + ' ';
-		}
-		in = tmpStr.toCharArray(); 
-		Token[] tokenArray = scanner.scan(in);
-		System.out.println("//////////");
-	    for (int i = 0; i < tokenArray.length; i++){
-	    	System.out.println(tokenArray[i].getKind());
-	    }*/
-		/*CommandParcer cp = new CommandParcer();
-		Command com = cp.parseCommand(args[0]);
-		if (com.equals(new Command(CommandsList.issue,"",""))) {
-			final Issue issue = restClient.getIssueClient().getIssue("TST-1", pm);
-			System.out.println(issue);
-		}*/
-
-	//}
-
 }

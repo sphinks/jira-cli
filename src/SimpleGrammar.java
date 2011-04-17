@@ -43,7 +43,6 @@ public class SimpleGrammar extends Grammar {
 			tmpRule = (Rule)ruleIterator.next();
 			if ((tmpRule.left().equals(baseOpt)) && (tmpRule.right().length == commandLine.getOptions().length-1)) {
 				if (canReduce(tmpRule, commandLine, tmpRule.right().length)) {
-					//r = tmpRule;
 					return new SuccessfullParserResult(tmpRule);
 				}
 			}

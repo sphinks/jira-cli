@@ -45,11 +45,15 @@ public class Rule {
 	}
 
 	public String toString() {
-		if ((left instanceof Option) && (right instanceof Option[])) {
+		if (left instanceof Option) {
 			String ruleInString = ((Option)left).getOpt() + ':';
 			
 			for (int i = 0; i < right.length; i++) {
-				ruleInString += ((Option)right[i]).getOpt();  
+				if (right[i] instanceof Option) {
+					ruleInString += ((Option)right[i]).getOpt();
+				}else{
+					ruleInString += right[i].toString();
+				}
 				if (i == right.length-1) {
 					ruleInString += ';';
 				}else{
