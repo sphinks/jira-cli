@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.swift.common</groupId>
+    <artifactId>cli</artifactId>
+    <version>2.0.0</version>
+
+    <name>Command Line Interface base library</name>
+    <packaging>jar</packaging>
+
+    <description>
+        Base enablers for writing a command line interface (CLI) client.
+    </description>
+    <url>https://plugins.atlassian.com/vendor/details/90</url>   <!-- Home -->
+
+    <organization>
+        <name>Bob Swift</name>
+        <url>https://plugins.atlassian.com/vendor/details/90</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Bob Swift</name>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>6</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lib.directory>${project.build.directory}/lib</lib.directory>
+        <outputDirectory>${lib.directory}</outputDirectory>
+        <sources.directory>${project.build.directory}/sources</sources.directory>
+        <packageName>${project.groupId}</packageName>  <!-- Needed for executable -->
+        <mainClass>${packageName}.CliClient</mainClass>
+    </properties>
+
+    <issueManagement>
+        <system>Atlassian Developer JIRA</system>
+        <url>https://studio.plugins.atlassian.com/browse/ACLI</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:hg:https://bitbucket.org/bob_swift/cli</connection>
+        <developerConnection>scm:svn:https://bitbucket.org/bob_swift/cli</developerConnection>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>BSD</name>
+            <distribution>http://www.opensource.org/licenses/bsd-license.php</distribution>
+            <comments>
+                 Copyright (c) 2006, 2011, Bob Swift.  All rights reserved.
+            </comments>
+            <url>/LICENSE.txt</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+        <!-- JSAP command line enabler -->
+        <dependency>
+            <groupId>com.martiansoftware</groupId>
+            <artifactId>jsap</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <!-- Bundle postgres support for runFromSql -->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>8.4-702.jdbc3</version>
+        </dependency>
+
+        <!-- JUnit is used to perform unit tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Utilities including StringUtils -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!--  ensure we build what we're target -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <!--  Generating a executable jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <outputDirectory>${lib.directory}</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- Generate a source jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <outputDirectory>${sources.directory}</outputDirectory>
+                    <includePom>true</includePom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <includePom>true</includePom>
+                            <outputDirectory>${sources.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--  Copy all the dependency jars into the lib directory -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                           <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${lib.directory}</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>atlassian-m2-contrib</id>
+            <name>Atlassian Maven 2 Contributor Repository</name>
+            <url>http://svn.atlassian.com/svn/public/contrib/repository/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>atlassian-m2-repository</id>
+            <name>Atlassian Maven 2 Repository</name>
+            <url>http://repository.atlassian.com/maven2</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>atlassian-m2-contrib</id>
+            <name>Atlassian Maven 2 Contributor Repository</name>
+            <url>http://svn.atlassian.com/svn/public/contrib/repository/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>atlassian-contrib</id>
+            <name>Atlassian repository of contributed code</name>
+            <url>dav:https://maven.atlassian.com/contrib</url>
+        </repository>
+        <snapshotRepository>
+            <id>atlassian-contrib-snapshot</id>
+            <name>Atlassian repository of contributed code snapshots</name>
+            <url>dav:https://maven.atlassian.com/contrib-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

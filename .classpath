@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-cli-1.2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jira-rest/jira-rest-java-client-0.2-m1.jar" sourcepath="C:/Users/Zerin_is.SCIENER/jira-cli/lib/jira-rest/jira-rest-java-client-0.2-m1-sources.jar">
 		<attributes>
@@ -15,7 +16,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jersey"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/joda"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jira-rest"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/guava"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/common-cli"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

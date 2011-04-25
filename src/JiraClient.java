@@ -1,11 +1,14 @@
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.codehaus.jettison.json.JSONArray;
+
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.NullProgressMonitor;
 import com.atlassian.jira.rest.client.domain.BasicProject;
 import com.atlassian.jira.rest.client.domain.Issue;
 import com.atlassian.jira.rest.client.internal.jersey.JerseyJiraRestClientFactory;
+import com.atlassian.jira.rest.client.internal.json.JsonArrayParser;
 
 /**
  * Author: sphinks
@@ -46,5 +49,7 @@ public class JiraClient {
 	public BasicProject getIssueProject(String issueName) {
 		return restClient.getIssueClient().getIssue(issueName, pm).getProject();
 	}
+	
+	
 
 }
