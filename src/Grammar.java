@@ -4,12 +4,11 @@
  * Date: 11.04.2011
  */
 
-import java.util.List;
-import scanner.*;
+import org.apache.commons.cli.CommandLine;
 
 public abstract class Grammar {
 	
 	abstract void addRule(Rule newRule);
-	abstract Rule parser(Object[] tokenArray);
+	abstract ParserResult parser(CommandLine commandLine);
 
 }
