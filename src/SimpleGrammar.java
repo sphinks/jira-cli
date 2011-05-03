@@ -1,12 +1,8 @@
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-
-import scanner.Token;
 
 /**
  * Author: sphinks
