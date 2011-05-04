@@ -34,7 +34,7 @@ public class Command {
 		Option option = new Option("login", true, "Login");
 		option.setArgs(2);
 		option.setOptionalArg(true);
-		option.setArgName("action");
+		option.setArgName("login password");
 		return option;
 	}
 }
