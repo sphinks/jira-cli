@@ -1,5 +1,7 @@
 import java.net.URISyntaxException;
 
+import com.atlassian.jira.rest.client.domain.BasicProject;
+
 
 public class JiraClientMainClass {
 
@@ -11,7 +13,7 @@ public class JiraClientMainClass {
 	 */
 	public static void main(final String[] commandLineArguments)
 	{
-		//Start for pipilining
+		//Start for pipelining
 		/*InputStream in;
 		 
 		if (args.length == 0) {
@@ -23,11 +25,15 @@ public class JiraClientMainClass {
 		JiraCli jiraCli = new JiraCli(commandLineArguments);
 		//Test only
 		//need new login
-		/*try{
+		try{
 			JiraClient jc = new JiraClient("http://sandbox.onjira.com", "sphinks", "654321");
-			System.out.println(jc.getIssueProject("TST-1"));
+			//System.out.println(jc.getIssueProject("TST-1"));
+			BasicProject bp = jc.getIssueProject("TST-1");
+			System.out.println(bp.getKey());
+			System.out.println(bp.getSelf());
+
 		}catch(URISyntaxException ex){
 			System.err.println("Incorrect URI: " + ex.toString());
-		}*/
+		}
 	}
 }
