@@ -38,6 +38,7 @@ public class JiraClient {
 		return commandAction.action(restClient);
 	}
 	
+	
 	/*public Issue getIssue(String issueName) {
 		return restClient.getIssueClient().getIssue(issueName, pm);
 	}
