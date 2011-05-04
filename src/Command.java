@@ -17,13 +17,10 @@ public class Command {
 
 
 	final static HashMap<String, Option> commands = new HashMap<String, Option>();
-	final static List<String> baseCommand = new LinkedList<String>();
 
 	static {
 		commands.put(ISSUE.getOpt(), ISSUE);
 		commands.put(LOGIN.getOpt(), LOGIN);
-		
-		baseCommand.add(ISSUE.getOpt());
 	}
 	
 	private static Option initIssueOption() {
@@ -37,7 +34,7 @@ public class Command {
 		Option option = new Option("login", true, "Login");
 		option.setArgs(2);
 		option.setOptionalArg(true);
-		option.setArgName("action");
+		option.setArgName("login password");
 		return option;
 	}
 }

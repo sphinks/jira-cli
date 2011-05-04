@@ -1,12 +1,8 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -26,7 +22,6 @@ import org.apache.commons.cli.PosixParser;
 public class JiraCli {
 	
 	public JiraCli(String[] commandLineArguments) {
-		LinkedList<String[]> commands = (LinkedList<String[]>)separateCommands(commandLineArguments);
 		final String applicationName = "jira-cli";
 		displayBlankLines(1, System.out);
 		displayHeader(System.out);
@@ -44,38 +39,8 @@ public class JiraCli {
 		
 			displayProvidedCommandLineArguments(commandLineArguments, System.out);
 			constructPosixOptions();
-			for (Iterator<String[]> listIterator = commands.iterator(); listIterator.hasNext();) {
-				
-				usePosixParser(listIterator.next());
-			}
+			usePosixParser(commandLineArguments);
 		}
-	}
-	
-	/**
-	 * Method to separate different commands using pipe symbol "|"
-	 * @param commandLineArguments Command-line arguments
-	 * @return list of commands
-	 */
-	public static List<String[]> separateCommands(String[] commandLineArguments) {
-		List<String[]> commands = new LinkedList<String[]>();
-		String[] tempStringArray = null;
-		int lastSeparator = 0;
-		for ( int i = 0; i < commandLineArguments.length; i++ )
-		{
-			if ( commandLineArguments[i].equals("|") ) {
-				tempStringArray = Arrays.copyOfRange(commandLineArguments, lastSeparator, i);
-				lastSeparator = i+1;
-				commands.add(tempStringArray);
-			}
-		}
-		if (lastSeparator < commandLineArguments.length-1) {
-			tempStringArray = Arrays.copyOfRange(commandLineArguments, lastSeparator, commandLineArguments.length);
-			commands.add(tempStringArray);
-		}
-		if (commands.isEmpty()) {
-			commands.add(commandLineArguments);
-		}
-		return commands;
 	}
 	
 	/**
@@ -139,8 +104,12 @@ public class JiraCli {
 		try
 		{
 			commandLine = cmdLinePosixParser.parse(posixOptions, commandLineArguments);
+			if (commandLine.hasOption(Command.LOGIN.getOpt())) {
+				String[] arguments = commandLine.getOptionValues(Command.LOGIN.getOpt());
+				System.out.println("We try to Login with: " + arguments[0] + ' ' + arguments[1]);
+			}
 			
-			SimpleGrammar sg = new SimpleGrammar();
+			/*SimpleGrammar sg = new SimpleGrammar();
 			Rule r = new Rule(Command.ISSUE, new Object[] {Command.LOGIN});
 			sg.addRule(r);
 			ParserResult aplicableRule = sg.parser(commandLine);
@@ -148,7 +117,7 @@ public class JiraCli {
 				System.out.println(aplicableRule.toString());
 			}else{
 				System.err.println(aplicableRule.toString());
-			}
+			}*/
 		}
 		catch (ParseException parseException)  // checked exception
 		{
