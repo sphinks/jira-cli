@@ -17,10 +17,13 @@ public class Command {
 
 
 	final static HashMap<String, Option> commands = new HashMap<String, Option>();
+	final static HashMap<String, CommandAction> action = new HashMap<String, CommandAction>();
 
 	static {
 		commands.put(ISSUE.getOpt(), ISSUE);
 		commands.put(LOGIN.getOpt(), LOGIN);
+		
+		action.put(LOGIN.getOpt(), new LoginAction());
 	}
 	
 	private static Option initIssueOption() {

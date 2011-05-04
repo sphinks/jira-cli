@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -104,20 +105,16 @@ public class JiraCli {
 		try
 		{
 			commandLine = cmdLinePosixParser.parse(posixOptions, commandLineArguments);
-			if (commandLine.hasOption(Command.LOGIN.getOpt())) {
-				String[] arguments = commandLine.getOptionValues(Command.LOGIN.getOpt());
-				System.out.println("We try to Login with: " + arguments[0] + ' ' + arguments[1]);
-			}
-			
-			/*SimpleGrammar sg = new SimpleGrammar();
-			Rule r = new Rule(Command.ISSUE, new Object[] {Command.LOGIN});
-			sg.addRule(r);
-			ParserResult aplicableRule = sg.parser(commandLine);
-			if (aplicableRule instanceof SuccessfullParserResult) {
-				System.out.println(aplicableRule.toString());
-			}else{
-				System.err.println(aplicableRule.toString());
-			}*/
+			try{
+				JiraClient jc = new JiraClient("http://sandbox.onjira.com", "sphinks", "654321");
+				if (commandLine.hasOption(Command.LOGIN.getOpt())) {
+					String[] arguments = commandLine.getOptionValues(Command.LOGIN.getOpt());
+					System.out.println("We try to Login with: " + arguments[0] + ' ' + arguments[1]);
+					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
+				}
+			}catch(URISyntaxException ex){
+				System.err.println("Incorrect URI: " + ex.toString());
+			}	
 		}
 		catch (ParseException parseException)  // checked exception
 		{
