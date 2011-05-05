@@ -35,7 +35,7 @@ public class JiraClient {
 	
 	public String performCommand(Option opt) {
 		CommandAction commandAction = Command.action.get(opt.getOpt());
-		return commandAction.action(restClient);
+		return commandAction.action(opt, restClient);
 	}
 	
 	

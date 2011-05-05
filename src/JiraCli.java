@@ -112,6 +112,18 @@ public class JiraCli {
 					System.out.println("We try to Login with: " + arguments[0] + ' ' + arguments[1]);
 					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
 				}
+				if (commandLine.hasOption(Command.ISSUE.getOpt())) {
+					String[] arguments = commandLine.getOptionValues(Command.ISSUE.getOpt());
+					System.out.println("We try to Issue with: " + arguments[0] + ' ' + arguments[1]);
+					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
+				}
+				if (commandLine.hasOption(Command.HELP.getOpt())) {
+					displayBlankLines(2, System.out);
+					System.out.println("-- HELP --");
+					printHelp(
+							constructPosixOptions(), 80, "Options", "-- HELP --",
+							3, 5, true, System.out);
+				}
 			}catch(URISyntaxException ex){
 				System.err.println("Incorrect URI: " + ex.toString());
 			}	
