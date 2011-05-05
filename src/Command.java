@@ -14,13 +14,20 @@ public class Command {
 
 	final static Option ISSUE = initIssueOption();
 	final static Option LOGIN = initLoginOption();
+	final static Option HELP = initHelpOption();
 
 
 	final static HashMap<String, Option> commands = new HashMap<String, Option>();
+	final static HashMap<String, CommandAction> action = new HashMap<String, CommandAction>();
 
 	static {
 		commands.put(ISSUE.getOpt(), ISSUE);
 		commands.put(LOGIN.getOpt(), LOGIN);
+		commands.put(HELP.getOpt(), HELP);
+		
+		action.put(LOGIN.getOpt(), new LoginAction());
+		action.put(ISSUE.getOpt(), new GetIssueAction());
+		//action.put(HELP.getOpt(), new HelpAction()); Not used at now
 	}
 	
 	private static Option initIssueOption() {
@@ -32,9 +39,17 @@ public class Command {
 	
 	private static Option initLoginOption() {
 		Option option = new Option("login", true, "Login");
-		option.setArgs(2);
+		option.setArgs(3);
 		option.setOptionalArg(true);
-		option.setArgName("login password");
+		option.setArgName("<server> <login> <password>");
+		return option;
+	}
+	
+	private static Option initHelpOption() {
+		Option option = new Option("help", true, "Show help");
+		option.setArgs(0);
+		/*option.setOptionalArg(true);
+		option.setArgName("");*/
 		return option;
 	}
 }
