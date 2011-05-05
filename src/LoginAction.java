@@ -1,7 +1,6 @@
 import org.apache.commons.cli.Option;
 
 import com.atlassian.jira.rest.client.JiraRestClient;
-import com.atlassian.jira.rest.client.NullProgressMonitor;
 
 /**
  * @author Zerin_IS

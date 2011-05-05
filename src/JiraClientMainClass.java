@@ -1,7 +1,3 @@
-import java.net.URISyntaxException;
-
-import com.atlassian.jira.rest.client.domain.BasicProject;
-
 
 public class JiraClientMainClass {
 

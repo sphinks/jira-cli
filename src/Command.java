@@ -1,6 +1,4 @@
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.cli.Option;
 
@@ -15,6 +13,7 @@ public class Command {
 	final static Option ISSUE = initIssueOption();
 	final static Option LOGIN = initLoginOption();
 	final static Option HELP = initHelpOption();
+	final static Option GET_PROJECT = initGetProjectOption();
 
 
 	final static HashMap<String, Option> commands = new HashMap<String, Option>();
@@ -24,10 +23,12 @@ public class Command {
 		commands.put(ISSUE.getOpt(), ISSUE);
 		commands.put(LOGIN.getOpt(), LOGIN);
 		commands.put(HELP.getOpt(), HELP);
+		commands.put(GET_PROJECT.getOpt(), GET_PROJECT);
 		
 		action.put(LOGIN.getOpt(), new LoginAction());
 		action.put(ISSUE.getOpt(), new GetIssueAction());
 		//action.put(HELP.getOpt(), new HelpAction()); Not used at now
+		action.put(GET_PROJECT.getOpt(), new GetProjectAction());
 	}
 	
 	private static Option initIssueOption() {
@@ -45,11 +46,17 @@ public class Command {
 		return option;
 	}
 	
+	private static Option initGetProjectOption() {
+		Option option = new Option("getProject", true, "Get project by name");
+		option.setArgs(1);
+		option.setOptionalArg(false);
+		option.setArgName("[name] | [-a]");
+		return option;
+	}
+	
 	private static Option initHelpOption() {
 		Option option = new Option("help", true, "Show help");
 		option.setArgs(0);
-		/*option.setOptionalArg(true);
-		option.setArgName("");*/
 		return option;
 	}
 }

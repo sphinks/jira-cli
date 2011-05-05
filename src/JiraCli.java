@@ -107,7 +107,7 @@ public class JiraCli {
 			commandLine = cmdLinePosixParser.parse(posixOptions, commandLineArguments);
 			try{
 				JiraClient jc = new JiraClient("http://sandbox.onjira.com", "sphinks", "654321");
-				if (commandLine.hasOption(Command.LOGIN.getOpt())) {
+				/*if (commandLine.hasOption(Command.LOGIN.getOpt())) {
 					String[] arguments = commandLine.getOptionValues(Command.LOGIN.getOpt());
 					System.out.println("We try to Login with: " + arguments[0] + ' ' + arguments[1]);
 					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
@@ -116,13 +116,15 @@ public class JiraCli {
 					String[] arguments = commandLine.getOptionValues(Command.ISSUE.getOpt());
 					System.out.println("We try to Issue with: " + arguments[0] + ' ' + arguments[1]);
 					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
-				}
+				}*/
 				if (commandLine.hasOption(Command.HELP.getOpt())) {
 					displayBlankLines(2, System.out);
 					System.out.println("-- HELP --");
 					printHelp(
 							constructPosixOptions(), 80, "Options", "-- HELP --",
 							3, 5, true, System.out);
+				}else{
+					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
 				}
 			}catch(URISyntaxException ex){
 				System.err.println("Incorrect URI: " + ex.toString());
