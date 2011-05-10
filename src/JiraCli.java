@@ -9,6 +9,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -124,7 +125,7 @@ public class JiraCli {
 							constructPosixOptions(), 80, "Options", "-- HELP --",
 							3, 5, true, System.out);
 				}else{
-					System.out.println(jc.performCommand(commandLine.getOptions()[0]));
+					System.out.println(jc.performCommand(commandLine.getOptions()));
 				}
 			}catch(URISyntaxException ex){
 				System.err.println("Incorrect URI: " + ex.toString());
@@ -150,6 +151,12 @@ public class JiraCli {
 		for (Iterator<Option> i = commands.iterator(); i.hasNext();) {
 			posixOptions.addOption((Option)i.next());
 		}
+		Option opt = OptionBuilder.withLongOpt( "block-size" )
+        .withDescription( "use SIZE-byte blocks" )
+        .hasArg()
+        .withArgName("SIZE")
+        .create();
+		posixOptions.addOption(opt);
 		return posixOptions;
 	}
 

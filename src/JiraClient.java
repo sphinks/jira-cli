@@ -7,8 +7,8 @@
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-
 import com.atlassian.jira.rest.client.JiraRestClient;
 import com.atlassian.jira.rest.client.internal.jersey.JerseyJiraRestClientFactory;
 
@@ -33,9 +33,10 @@ public class JiraClient {
 		}
 	}
 	
-	public String performCommand(Option opt) {
-		CommandAction commandAction = Command.action.get(opt.getOpt());
-		return commandAction.action(opt, restClient);
+	public String performCommand(Option[] options) {
+		Option option = options[0];
+		CommandAction commandAction = Command.action.get(option.getOpt());
+		return commandAction.action(options, restClient);
 	}
 	
 	

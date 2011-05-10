@@ -14,7 +14,7 @@ public class LoginAction extends CommandAction {
 	 * @see CommandAction#action()
 	 */
 	@Override
-	public String action(Option option, JiraRestClient restClient) {
+	public String action(Option[] options, JiraRestClient restClient) {
 		return restClient.getSessionClient().getCurrentSession(pm).toString();
 	}
 

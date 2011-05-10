@@ -17,7 +17,7 @@ public class HelpAction extends CommandAction {
 	 * @see CommandAction#action(org.apache.commons.cli.Option, com.atlassian.jira.rest.client.JiraRestClient)
 	 */
 	@Override
-	public String action(Option option, JiraRestClient restClient) {
+	public String action(Option[] options, JiraRestClient restClient) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -10,6 +10,6 @@ public abstract class CommandAction {
 	
 	protected final NullProgressMonitor pm = new NullProgressMonitor();
 	
-	public abstract String action(Option option, JiraRestClient restClient);
+	public abstract String action(Option[] options, JiraRestClient restClient);
 
 }

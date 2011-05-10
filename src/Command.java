@@ -1,5 +1,4 @@
 import java.util.HashMap;
-
 import org.apache.commons.cli.Option;
 
 /**
@@ -14,6 +13,9 @@ public class Command {
 	final static Option LOGIN = initLoginOption();
 	final static Option HELP = initHelpOption();
 	final static Option GET_PROJECT = initGetProjectOption();
+	
+	final static Option GET_SUMMARY = initSummaryOption();
+	final static Option GET_WATCHERS = initWatcherOption();
 
 
 	final static HashMap<String, Option> commands = new HashMap<String, Option>();
@@ -24,6 +26,9 @@ public class Command {
 		commands.put(LOGIN.getOpt(), LOGIN);
 		commands.put(HELP.getOpt(), HELP);
 		commands.put(GET_PROJECT.getOpt(), GET_PROJECT);
+		commands.put(GET_SUMMARY.getOpt(), GET_SUMMARY);
+		commands.put(GET_WATCHERS.getOpt(), GET_WATCHERS);
+		
 		
 		action.put(LOGIN.getOpt(), new LoginAction());
 		action.put(ISSUE.getOpt(), new GetIssueAction());
@@ -32,21 +37,21 @@ public class Command {
 	}
 	
 	private static Option initIssueOption() {
-		Option option = new Option("issue", true, "Show issue");
-		option.setArgs(2);
+		Option option = new Option("i", "issue", true, "Show issue");
+		option.setArgs(1);
 		option.setArgName("action");
 		return option;
 	}
 	
 	private static Option initLoginOption() {
-		Option option = new Option("login", true, "Login");
+		Option option = new Option("l", "login", true, "Login");
 		option.setArgs(3);
 		option.setOptionalArg(true);
-		option.setArgName("<server> <login> <password>");
+		option.setArgName("server login password");
 		return option;
 	}
 	
-	private static Option initGetProjectOption() {
+	private static Option initGetProjectOption() {		
 		Option option = new Option("getProject", true, "Get project by name");
 		option.setArgs(1);
 		option.setOptionalArg(false);
@@ -55,7 +60,19 @@ public class Command {
 	}
 	
 	private static Option initHelpOption() {
-		Option option = new Option("help", true, "Show help");
+		Option option = new Option("h", "help", false, "Show help");
+		option.setArgs(0);
+		return option;
+	}
+	
+	private static Option initSummaryOption() {
+		Option option = new Option("s", false, "Show summary for issues");
+		option.setArgs(0);
+		return option;
+	}
+	
+	private static Option initWatcherOption() {
+		Option option = new Option("w", false, "Show watcher for issues");
 		option.setArgs(0);
 		return option;
 	}

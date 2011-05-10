@@ -17,7 +17,8 @@ public class GetProjectAction extends CommandAction {
 	 * @see CommandAction#action(org.apache.commons.cli.Option, com.atlassian.jira.rest.client.JiraRestClient)
 	 */
 	@Override
-	public String action(Option option, JiraRestClient restClient) {
+	public String action(Option[] options, JiraRestClient restClient) {
+		Option option = options[0];
 		String[] arguments = option.getValues();
 		BasicProject bp;
 		String result = "";
