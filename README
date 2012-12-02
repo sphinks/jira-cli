@@ -1,2 +1,16 @@
-README
-First line
+Jira-cli is simple cli client for JIRA.
+It was started as tutorial project and it just can make only some simple command for JIRA.
+Jira-cli use JIRA REST API as official library from Atlassian.
+
+What is supported:
+
+usage: java -cp jira-cli.jar [--block-size <SIZE>] [-getProject <[name] | [-a]>]
+       [-h] [-i <action>] [-l <server login password>] [-s] [-w]
+   
+   --block-size <SIZE>                 	  use SIZE-byte blocks
+   -getProject <[name] | [-a]>            Get project by name (-a for all projects)
+   -h,--help                              Show help
+   -i,--issue <action>                    Show issue
+   -l,--login <server login password>     Login
+   -s                                     Show summary for issues
+   -w                                     Show watcher for issues
